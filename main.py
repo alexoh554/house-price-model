@@ -5,7 +5,7 @@ from sklearn.preprocessing import StandardScaler
 from data import load_data
 
 def main():
-    x, y = load_data()
+    x, y, features= load_data()
 
     # Scale features
     scaler = StandardScaler()
@@ -20,7 +20,31 @@ def main():
     w = sgdr.coef_
     print(f"model parameters: w= {w}, b= {b}")
 
+    # Predict value of y using wx+b
+    y_pred = sgdr.predict(x_norm)
+    print(y_pred)
 
+    # Compare target vs predicted results
+    num_features = len(x[0])
+    fig, ax = plt.subplots(1, num_features, sharey=True)
+    for i in range(num_features):
+        ax[i].scatter(x[:, i], y, label='Actual')
+        ax[i].scatter(x[:, i], y_pred, color="orange", label = 'Predicted')
+        ax[i].set_xlabel(features[i])
+    plt.show()
+
+    # Get User feature input for prediction
+    print("Enter attributes of the house: ") 
+    user_features = []
+    for feature in features:
+        user_features.append(float(input(f"{feature} = ")))
+
+
+    x_given = np.array(user_features).reshape(1, -1)
+    x_given_norm = scaler.transform(x_given)
+
+    user_predicted = sgdr.predict(x_given_norm)
+    print(f"Predicted value of the house: ${user_predicted}")
 
 if __name__ == "__main__":
     main()
