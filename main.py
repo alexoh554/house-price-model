@@ -26,12 +26,17 @@ def main():
 
     # Compare target vs predicted results
     num_features = len(x[0])
-    fig, ax = plt.subplots(1, num_features, sharey=True)
     for i in range(num_features):
-        ax[i].scatter(x[:, i], y, label='Actual')
-        ax[i].scatter(x[:, i], y_pred, color="orange", label = 'Predicted')
-        ax[i].set_xlabel(features[i])
-    plt.show()
+        fig, ax = plt.subplots()
+
+        ax.scatter(x[:, i], y, label='Actual')
+        ax.set_xlabel(features[i])
+
+        ax.scatter(x[:, i], y_pred, color="orange", label='Predicted')
+        ax.set_ylabel('Target')
+
+        plt.show()
+
 
     # Get User feature input for prediction
     print("Enter attributes of the house: ") 
